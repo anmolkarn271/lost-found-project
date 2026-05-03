@@ -1,0 +1,302 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    background-color: #D4D4D4;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+/* 
+   BACKGROUND VIDEO
+ */
+#bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    z-index: -2;
+}
+
+/* Dark overlay for readability */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.65);
+    z-index: -1;
+}
+
+/* 
+   MAIN CONTAINER (CENTER)
+ */
+.container {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* 
+   HEADINGS
+ */
+h1, h2 {
+    color: #2c2c2c;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+}
+
+.title {
+    font-size: 3.5rem;
+    color: #000;
+    text-shadow: 2px 2px 8px rgba(150, 106, 150, 0.5);
+    margin-bottom: 5px;
+}
+
+.tagline {
+    color: #000;
+    margin-bottom: 30px;
+    font-style: italic;
+}
+
+/* 
+   LINKS / BUTTONS
+ */
+a {
+    text-decoration: none;
+    background: linear-gradient(150deg, #ce5454, #742c2c);
+    color: white;
+    padding: 10px 24px;
+    margin: 6px;
+    display: inline-block;
+    border-radius: 30px;
+    transition: 0.35s ease;
+    font-size: 14px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+}
+
+/* 
+   FORM CARD (CENTERED)
+ */
+.form {
+    background: rgba(255,255,255,0.95);
+    width: 360px;
+    padding: 30px 25px;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    animation: fadeInUp 0.7s ease;
+    backdrop-filter: blur(5px);
+}
+
+/* 
+   INPUTS & TEXTAREA
+ */
+input,
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 12px 0;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    outline: none;
+    font-size: 14px;
+    transition: 0.3s ease;
+    background-color: #f9f9f9;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #007bff;
+    background-color: #fff;
+    box-shadow: 0 0 8px rgba(0,123,255,0.4);
+}
+
+/* 
+   BUTTON
+ */
+button {
+    width: 45%;
+    padding: 12px;
+    background: linear-gradient(135deg, #28a745, #1e7e34);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.35s ease;
+    margin-top: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    width: 50%;
+}
+
+/* 
+   TABLE (CENTERED)
+ */
+table {
+    width: 90%;
+    max-width: 900px;
+    margin: 30px auto;
+    background-color: white;
+    border-collapse: collapse;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+table th {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    padding: 14px;
+    font-size: 14px;
+}
+
+table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+}
+
+table tr:hover {
+    background-color: #f2f6ff;
+}
+
+/* 
+   OPTION TEXT
+ */
+.option {
+    margin-top: 20px;
+    color: #333;
+    font-size: 13px;
+}
+
+
+/* 
+   NAVBAR (ONE LINE LINKS)
+*/
+.navbar {
+    width: 100%;
+    padding: 8px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(208, 191, 191, 0.829);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+/* Logo */
+.nav-logo {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #742c2c;
+}
+
+/* Links container */
+.nav-links {
+    list-style: none;
+    display: flex;            
+    align-items: center;
+    gap: 20px;                 
+    padding: 0;
+    margin: 0;
+}
+
+/* Individual links */
+.nav-links li {
+    display: inline-block;
+}
+
+/* Navbar links style */
+.nav-links li a {
+    background: none;          
+    color: #333;
+    padding: 6px 12px;
+    box-shadow: none;
+    font-weight: 500;
+}
+
+/* Hover effect */
+.nav-links li a:hover {
+    color: #ce5454;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Page title */
+.page-title {
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+/* Home link position */
+.top-link {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+/* Error message */
+.error-msg {
+    background: #ffe5e5;
+    color: #b30000;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+/* Button full width on login */
+.form button {
+    width: 100%;
+}
+
+/* 
+   ANIMATION
+ */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 
+   RESPONSIVE
+*/   
+   
+@media (max-width: 500px) {
+    .form {
+        width: 90%;
+    }
+
+    .title {
+        font-size: 2.5rem;
+    }
+}
