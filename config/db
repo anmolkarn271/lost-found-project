@@ -1,0 +1,12 @@
+<?php
+// Start session
+session_start();
+
+// Database connection
+$conn = mysqli_connect("localhost", "root", "", "lostandfound");
+
+// Check connection
+if (!$conn) {
+    die("Database connection failed: " . mysqli_connect_error());
+}
+?>
