@@ -1,12 +1,30 @@
 <?php
-// Start session
-session_start();
 
-// Database connection
-$conn = mysqli_connect("localhost", "root", "", "lostandfound");
+// Start session only if it is not already active
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Database credentials
+$host = "localhost";
+$username = "root";
+$password = "";
+$database = "lostandfound";
+
+// Create database connection
+$conn = mysqli_connect(
+    $host,
+    $username,
+    $password,
+    $database
+);
 
 // Check connection
 if (!$conn) {
-    die("Database connection failed: " . mysqli_connect_error());
+    die("Database connection failed.");
 }
+
+// Set UTF-8 character encoding
+mysqli_set_charset($conn, "utf8mb4");
+
 ?>
