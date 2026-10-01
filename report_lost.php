@@ -2,15 +2,13 @@
 
 include "config/db.php";
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
+// Check login
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
 
+// Insert lost item
 if (isset($_POST['submit'])) {
 
     $user_id = $_SESSION['user_id'];
@@ -20,12 +18,17 @@ if (isset($_POST['submit'])) {
     $location = trim($_POST['location']);
     $contact = trim($_POST['contact']);
 
+    // Prepared statement for security
     $stmt = mysqli_prepare(
         $conn,
         "INSERT INTO items
         (user_id, type, name, description, location, contact)
         VALUES (?, 'Lost', ?, ?, ?, ?)"
     );
+
+    if (!$stmt) {
+        die("Database error: " . mysqli_error($conn));
+    }
 
     mysqli_stmt_bind_param(
         $stmt,
@@ -48,11 +51,74 @@ if (isset($_POST['submit'])) {
 
     } else {
 
-        echo "Error: " . mysqli_error($conn);
-
+        echo "<script>
+                alert('Error reporting lost item.');
+              </script>";
     }
 
     mysqli_stmt_close($stmt);
 }
 
 ?>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Report Lost Item</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<h2>Report Lost Item</h2>
+
+<form method="post">
+
+    <input
+        type="text"
+        name="name"
+        placeholder="Item Name"
+        required
+    >
+
+    <textarea
+        name="description"
+        placeholder="Item Description"
+    ></textarea>
+
+    <input
+        type="text"
+        name="location"
+        placeholder="Lost Location"
+    >
+
+    <input
+        type="text"
+        name="contact"
+        placeholder="Contact Information"
+    >
+
+    <button type="submit" name="submit">
+        Submit
+    </button>
+
+</form>
+
+<br>
+
+<a href="dashboard.php">
+    Back to Dashboard
+</a>
+
+</body>
+
+</html>
