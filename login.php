@@ -1,81 +1,134 @@
 <?php
+
 include "config/db.php";
 
-$error = "";
-
+// Check login form
 if (isset($_POST['login'])) {
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $pass  = $_POST['password'];
 
-    $res = mysqli_query($conn, "SELECT * FROM users WHERE email='$email' LIMIT 1");
-    $user = mysqli_fetch_assoc($res);
+    $email = trim($_POST['email']);
+    $password = $_POST['password'];
 
-    if ($user && password_verify($pass, $user['password'])) {
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['name']    = $user['name'];
-        header("Location: dashboard.php");
-        exit();
+    if (empty($email) || empty($password)) {
+
+        $error = "Please enter email and password.";
+
     } else {
-        $error = "Invalid email or password";
+
+        // Find user by email
+        $stmt = mysqli_prepare(
+            $conn,
+            "SELECT id, name, password FROM users WHERE email = ?"
+        );
+
+        if (!$stmt) {
+
+            $error = "Database error.";
+
+        } else {
+
+            mysqli_stmt_bind_param($stmt, "s", $email);
+            mysqli_stmt_execute($stmt);
+
+            mysqli_stmt_store_result($stmt);
+
+            if (mysqli_stmt_num_rows($stmt) === 1) {
+
+                mysqli_stmt_bind_result(
+                    $stmt,
+                    $user_id,
+                    $name,
+                    $hashed_password
+                );
+
+                mysqli_stmt_fetch($stmt);
+
+                // Verify password
+                if (password_verify($password, $hashed_password)) {
+
+                    // Regenerate session ID for security
+                    session_regenerate_id(true);
+
+                    $_SESSION['user_id'] = $user_id;
+                    $_SESSION['user_name'] = $name;
+                    $_SESSION['user_email'] = $email;
+
+                    header("Location: dashboard.php");
+                    exit();
+
+                } else {
+
+                    $error = "Invalid email or password.";
+                }
+
+            } else {
+
+                $error = "Invalid email or password.";
+            }
+
+            mysqli_stmt_close($stmt);
+        }
     }
 }
+
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
+
     <meta charset="UTF-8">
-    <title>Login | Oops_Finder</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login</title>
+
     <link rel="stylesheet" href="css/style.css">
+
 </head>
+
 <body>
 
-<!-- BACK TO HOME -->
-<div class="top-link">
-    <a href="index.php">&#8592; Home</a>
-</div>
+<h2>Login</h2>
 
-<!-- MAIN CONTAINER -->
-<div class="container"> 
-    <video autoplay muted loop id="bg-video">
-        <source src="media/bg.mp4" type="video/mp4">
-    </video>
+<?php if (isset($error)) { ?>
 
+    <p style="color:red;">
+        <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
+    </p>
 
+<?php } ?>
 
-    <h2 class="page-title">Login</h2>
+<form method="post">
 
-    <div class="form">
+    <input
+        type="email"
+        name="email"
+        placeholder="Email Address"
+        required
+    >
 
-        <?php if ($error) { ?>
-            <p class="error-msg"><?php echo $error; ?></p>
-        <?php } ?>
+    <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        required
+    >
 
-        <form method="post" autocomplete="off">
+    <button type="submit" name="login">
+        Login
+    </button>
 
-            <input 
-                type="email" 
-                name="email" 
-                placeholder="Email address" 
-                required
-            >
+</form>
 
-            <input 
-                type="password" 
-                name="password" 
-                placeholder="Password" 
-                required
-            >
+<br>
 
-            <button type="submit" name="login">Login</button>
-        </form>
-
-        <a class="option" href="signup.php">
-            Don't have an account? <strong>Signup</strong>
-        </a>
-    </div>
-
-</div>
+<p>
+    Don't have an account?
+    <a href="signup.php">Create Account</a>
+</p>
 
 </body>
+
 </html>
