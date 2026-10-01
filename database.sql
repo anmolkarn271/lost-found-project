@@ -2,58 +2,40 @@
 -- LOST & FOUND PROJECT DATABASE
 -- =========================================
 
-CREATE DATABASE IF NOT EXISTS lost_found_db;
+CREATE DATABASE IF NOT EXISTS lostandfound;
 
-USE lost_found_db;
-
+USE lostandfound;
 
 -- =========================================
 -- USERS TABLE
 -- =========================================
 
 CREATE TABLE IF NOT EXISTS users (
-
     id INT AUTO_INCREMENT PRIMARY KEY,
-
     name VARCHAR(100) NOT NULL,
-
     email VARCHAR(150) NOT NULL UNIQUE,
-
     password VARCHAR(255) NOT NULL,
-
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-
 );
-
 
 -- =========================================
 -- ITEMS TABLE
 -- =========================================
 
 CREATE TABLE IF NOT EXISTS items (
-
     id INT AUTO_INCREMENT PRIMARY KEY,
-
     user_id INT NOT NULL,
-
     type ENUM('Lost', 'Found') NOT NULL,
-
     name VARCHAR(150) NOT NULL,
-
     description TEXT,
-
     location VARCHAR(255),
-
     contact VARCHAR(100),
-
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (user_id)
         REFERENCES users(id)
         ON DELETE CASCADE
-
 );
-
 
 -- =========================================
 -- INDEXES
@@ -67,8 +49,3 @@ ON items(location);
 
 CREATE INDEX idx_items_user
 ON items(user_id);
-
-
--- =========================================
--- DATABASE READY
--- =========================================
